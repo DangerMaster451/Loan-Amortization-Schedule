@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Loan Amortization Schedule/Loan Amortization Schedule.vcxproj" />
+</Solution>
