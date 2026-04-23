@@ -4,11 +4,14 @@
 int main()
 {
 	Loan l = Loan(30000, 5, 4.2);
+	std::vector<Payment*> payments = l.generatePayments();
 
-	std::cout << "Interest: ";
-	std::cout << l.calculateIntrest() << std::endl;
-	std::cout << "Payment: ";
-	std::cout << l.calculatePayment() << std::endl;
+	for (Payment* p : payments)
+	{
+		p->display();
+		std::cout << std::endl;
+	}
+	
 
 	return 0;
 }
