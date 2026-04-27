@@ -17,7 +17,6 @@ double Loan::getPaymentValue()
 	return n / d;
 }
 
-
 std::vector<Payment*> Loan::generatePayments()
 {
 	const double PAYMENT_VALUE = getPaymentValue();
