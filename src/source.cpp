@@ -11,7 +11,7 @@ int main()
 
 	for (Payment* p : payments)
 	{
-		std::cout << p->toCSVRow() << std::endl;
+		p->toCSVRow();
 	}
 
 	CSVService::generateFile(payments, "test.csv");
