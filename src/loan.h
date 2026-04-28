@@ -6,12 +6,14 @@ private:
 	const double VALUE;
 	const double INTREST;
 	const double REMAINING_PRINCIPAL;
+	const int PAYMENT_NUMBER;
 public:
-	Payment(double value, double intrest, double remainingPrincipal) :
-		VALUE(value), INTREST(intrest), REMAINING_PRINCIPAL(remainingPrincipal)
+	Payment(double value, double intrest, double remainingPrincipal, int paymentNumber) :
+		VALUE(value), INTREST(intrest), REMAINING_PRINCIPAL(remainingPrincipal), PAYMENT_NUMBER(paymentNumber)
 	{};
 
 	void display();
+	std::string toCSVRow();
 };
 
 class Loan {

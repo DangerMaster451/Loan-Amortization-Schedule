@@ -2,12 +2,27 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 void Payment::display()
 {
 	std::cout << "Payment: " << VALUE << "\n";
 	std::cout << "Intrest: " << INTREST << "\n";
 	std::cout << "Remaining Principal: " << REMAINING_PRINCIPAL << "\n";
+}
+
+std::string Payment::toCSVRow()
+{
+	std::ostringstream oss;
+		oss << std::fixed << std::setprecision(2)
+    	<< PAYMENT_NUMBER << ","
+    	<< VALUE << ","
+    	<< (VALUE - INTREST) << ","
+    	<< INTREST << ","
+   		<< REMAINING_PRINCIPAL;
+
+return oss.str();
 }
 
 double Loan::getPaymentValue()
@@ -28,7 +43,7 @@ std::vector<Payment*> Loan::generatePayments()
 	{
 		intrest = remainingPrincipal * RATE;
 		remainingPrincipal -= PAYMENT_VALUE-intrest;
-		payments.push_back(new Payment(PAYMENT_VALUE, intrest, remainingPrincipal));
+		payments.push_back(new Payment(PAYMENT_VALUE, intrest, remainingPrincipal, i));
 	}
 	return payments;
 }

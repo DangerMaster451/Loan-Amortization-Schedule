@@ -1,5 +1,7 @@
 #include "loan.h"
-#include<iostream>
+#include "CSVService.h"
+#include <iostream>
+#include <vector>
 
 int main()
 {
@@ -8,10 +10,10 @@ int main()
 
 	for (Payment* p : payments)
 	{
-		p->display();
-		std::cout << std::endl;
+		std::cout << p->toCSVRow() << std::endl;
 	}
-	
 
+	CSVService::generateFile(payments, "test.csv");
+	
 	return 0;
 }
