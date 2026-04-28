@@ -8,5 +8,5 @@ include_directories(include)
 add_executable(MyApp
     src/source.cpp
     src/loan.cpp
-    src/CSVService.cpp
+    src/services.cpp
 )

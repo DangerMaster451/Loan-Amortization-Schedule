@@ -1,7 +1,8 @@
 #include "loan.h"
-#include "CSVService.h"
+#include "services.h"
 #include <iostream>
 #include <vector>
+
 
 int main()
 {
@@ -14,6 +15,8 @@ int main()
 	}
 
 	CSVService::generateFile(payments, "test.csv");
+
+	ServerService::run();
 	
 	return 0;
 }
