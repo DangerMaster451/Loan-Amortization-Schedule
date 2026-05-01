@@ -72,6 +72,12 @@ std::string ServerService::buildPage(UserInput* input) {
         <table>)" + 
             table + 
         R"(</table>
+        <script>
+            const navEntry = performance.getEntriesByType("navigation")[0];
+            if (navEntry.type === "reload") {
+                fetch("/clear").then(() => window.location.href = "/");
+            }
+        </script>
         </body></html>
     )";
 }
@@ -84,19 +90,18 @@ void ServerService::run() {
         res.set_content(ServerService::buildPage(input), "text/html");
     });
 
-    svr.Post("/add", [&input](const httplib::Request& req, httplib::Response& res) {
-        try {
-            float principal = stof(req.get_param_value("principal"));
-            int term = stof(req.get_param_value("term"));
-            float APR = stof(req.get_param_value("APR"));
-            res.set_redirect("/");
+    svr.Get("/clear", [&input](const httplib::Request&, httplib::Response& res) {
+        input = nullptr;
+        res.set_content("ok", "text/plain");
+    });
 
-            input = new UserInput(principal, term, APR);
-        }
-        catch(...) {
-            input = nullptr;
-            res.set_redirect("/");
-        }
+    svr.Post("/add", [&input](const httplib::Request& req, httplib::Response& res) {
+        float principal = stof(req.get_param_value("principal"));
+        int term = stof(req.get_param_value("term"));
+        float APR = stof(req.get_param_value("APR"));
+        res.set_redirect("/");
+
+        input = new UserInput(principal, term, APR);
     });
 
     svr.listen("0.0.0.0", 8080);
