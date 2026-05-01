@@ -32,19 +32,31 @@ std::string ServerService::buildTable(UserInput* input)
     {
         return R"(
         <p>Nothing here yet :)</p>
-    )";
+        )";
     }
+
+    Loan l = Loan(input->principal, input->term, input->APR);
+	std::vector<Payment*> payments = l.generatePayments();
+
+    std::string data;
+
+	for (Payment* p : payments)
+	{
+		data+=p->toHTMLRow();
+	}
+
+
     return R"(
     <table>
         <tr>
-            <tc>Payment #</tc>
-            <tc>Payment $</tc>
-            <tc>Principal</tc>
-            <tc>Interest</tc>
-            <tc>Balence</tc>
-        </tr>
-    </table>
-
+            <th>Payment #</th>
+            <th>Payment $</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balence</th>
+        </tr>)"
+        + data +
+        R"(</table>
     )";
 }
 

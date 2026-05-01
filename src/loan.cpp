@@ -25,6 +25,21 @@ std::string Payment::toCSVRow()
 return oss.str();
 }
 
+std::string Payment::toHTMLRow()
+{
+	std::ostringstream oss;
+		oss << std::fixed << std::setprecision(2)
+		<< "<tr>"
+    	<< "<td>" << PAYMENT_NUMBER << "</td>"
+    	<< "<td>" << VALUE << "</td>"
+    	<< "<td>" << (VALUE - INTREST) << "</td>"
+    	<< "<td>" << INTREST << "</td>"
+   		<< "<td>" << REMAINING_PRINCIPAL << "</td>"
+		<< "</tr>";
+
+return oss.str();
+}
+
 double Loan::getPaymentValue()
 {
 	double n = PRINCIPAL * RATE * pow((1 + RATE), TOTAL_MONTHS);

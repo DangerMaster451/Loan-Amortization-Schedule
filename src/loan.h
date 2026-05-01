@@ -14,6 +14,7 @@ public:
 
 	void display();
 	std::string toCSVRow();
+	std::string toHTMLRow();
 };
 
 class Loan {
