@@ -41,6 +41,7 @@ std::string ServerService::buildTable(UserInput* input)
 	}
 
     return R"(
+    <a href='/download'><button type='button'>Download CSV</button></a>
     <table>
         <tr>
             <th>Payment #</th>
@@ -102,6 +103,24 @@ void ServerService::run() {
         res.set_redirect("/");
 
         input = new UserInput(principal, term, APR);
+    });
+
+    svr.Get("/download", [&input](const httplib::Request&, httplib::Response& res) {
+        if (input == nullptr) {
+            res.set_redirect("/");
+            return;
+        }
+
+        Loan l = Loan(input->principal, input->term, input->APR);
+        std::vector<Payment*> payments = l.generatePayments();
+
+        std::string csv;
+        for (Payment* p : payments) {
+            csv += p->toCSVRow() + "\n";
+        }
+
+        res.set_content(csv, "text/csv");
+        res.set_header("Content-Disposition", "attachment; filename=\"loan.csv\"");
     });
 
     svr.listen("0.0.0.0", 8080);
