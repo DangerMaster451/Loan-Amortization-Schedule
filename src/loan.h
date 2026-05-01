@@ -1,15 +1,16 @@
 #pragma once
 #include <vector>
+#include <string>
 
 class Payment {
 private:
 	const double VALUE;
-	const double INTREST;
+	const double INTEREST;
 	const double REMAINING_PRINCIPAL;
 	const int PAYMENT_NUMBER;
 public:
 	Payment(double value, double intrest, double remainingPrincipal, int paymentNumber) :
-		VALUE(value), INTREST(intrest), REMAINING_PRINCIPAL(remainingPrincipal), PAYMENT_NUMBER(paymentNumber)
+		VALUE(value), INTEREST(intrest), REMAINING_PRINCIPAL(remainingPrincipal), PAYMENT_NUMBER(paymentNumber)
 	{};
 
 	void display();

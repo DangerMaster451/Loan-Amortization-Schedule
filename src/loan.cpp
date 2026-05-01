@@ -8,7 +8,7 @@
 void Payment::display()
 {
 	std::cout << "Payment: " << VALUE << "\n";
-	std::cout << "Intrest: " << INTREST << "\n";
+	std::cout << "Intrest: " << INTEREST << "\n";
 	std::cout << "Remaining Principal: " << REMAINING_PRINCIPAL << "\n";
 }
 
@@ -18,8 +18,8 @@ std::string Payment::toCSVRow()
 		oss << std::fixed << std::setprecision(2)
     	<< PAYMENT_NUMBER << ","
     	<< VALUE << ","
-    	<< (VALUE - INTREST) << ","
-    	<< INTREST << ","
+    	<< (VALUE - INTEREST) << ","
+    	<< INTEREST << ","
    		<< REMAINING_PRINCIPAL;
 
 return oss.str();
@@ -32,8 +32,8 @@ std::string Payment::toHTMLRow()
 		<< "<tr>"
     	<< "<td>" << PAYMENT_NUMBER << "</td>"
     	<< "<td>" << VALUE << "</td>"
-    	<< "<td>" << (VALUE - INTREST) << "</td>"
-    	<< "<td>" << INTREST << "</td>"
+    	<< "<td>" << (VALUE - INTEREST) << "</td>"
+    	<< "<td>" << INTEREST << "</td>"
    		<< "<td>" << REMAINING_PRINCIPAL << "</td>"
 		<< "</tr>";
 
