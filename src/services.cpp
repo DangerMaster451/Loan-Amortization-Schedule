@@ -15,11 +15,6 @@ void CSVService::generateFile(std::vector<Payment*> payments, std::string fileNa
     }
 }
 
-
-namespace HTMLService {
-
-}
-
 ServerService::UserInput::UserInput(float principal, int term, float APR) {
     this->principal = principal;
     this->term = term;
@@ -45,7 +40,6 @@ std::string ServerService::buildTable(UserInput* input)
 		data+=p->toHTMLRow();
 	}
 
-
     return R"(
     <table>
         <tr>
@@ -68,11 +62,11 @@ std::string ServerService::buildPage(UserInput* input) {
         <p>Loan Amortization App</p>
         <form action="/add" method="POST">
             <label for="principal">Principal:</label><br>
-            <input type="number" id="principal" name="principal"><br>
+            <input type="number" id="principal" name="principal" required><br>
             <label for="term">Term (Years):</label><br>
-            <input type="number" id="term" name="term"><br>
+            <input type="number" id="term" name="term" required><br>
             <label for="APR">APR:</label><br>
-            <input type="number" id="APR" name="APR" min=0 max=100 step=0.01><br>
+            <input type="number" id="APR" name="APR" min=0 max=100 step=0.01 required><br>
             <input type="submit" value="Submit">
         </form>
         <table>)" + 
@@ -91,12 +85,18 @@ void ServerService::run() {
     });
 
     svr.Post("/add", [&input](const httplib::Request& req, httplib::Response& res) {
-        float principal = stof(req.get_param_value("principal"));
-        int term = stof(req.get_param_value("term"));
-        float APR = stof(req.get_param_value("APR"));
-        res.set_redirect("/");
+        try {
+            float principal = stof(req.get_param_value("principal"));
+            int term = stof(req.get_param_value("term"));
+            float APR = stof(req.get_param_value("APR"));
+            res.set_redirect("/");
 
-        input = new UserInput(principal, term, APR);
+            input = new UserInput(principal, term, APR);
+        }
+        catch(...) {
+            input = nullptr;
+            res.set_redirect("/");
+        }
     });
 
     svr.listen("0.0.0.0", 8080);

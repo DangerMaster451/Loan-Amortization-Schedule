@@ -8,10 +8,6 @@ namespace CSVService {
     void generateFile(std::vector<Payment*> payments, std::string fileName);
 }
 
-namespace HTMLService {
-
-}
-
 namespace ServerService {
     struct UserInput {
         float principal;
