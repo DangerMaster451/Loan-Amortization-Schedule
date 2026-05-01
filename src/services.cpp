@@ -21,15 +21,19 @@ ServerService::UserInput::UserInput(float principal, int term, float APR) {
     this->APR = APR;
 }
 
+std::string ServerService::buildButton(UserInput* input)
+{
+    if (input == nullptr) {
+        return R"(<p>Nothing here yet :)</p>)";
+    }
+    return R"(<a href='/download'><button type='button'>Download CSV</button></a>)";
+}
+
 std::string ServerService::buildTable(UserInput* input)
 {
-    if (input == nullptr)
-    {
-        return R"(
-        <p>Nothing here yet :)</p>
-        )";
+    if (input == nullptr) {
+        return "";
     }
-
     Loan l = Loan(input->principal, input->term, input->APR);
 	std::vector<Payment*> payments = l.generatePayments();
 
@@ -41,25 +45,44 @@ std::string ServerService::buildTable(UserInput* input)
 	}
 
     return R"(
-    <a href='/download'><button type='button'>Download CSV</button></a>
+    
     <table>
         <tr>
             <th>Payment #</th>
             <th>Payment $</th>
             <th>Principal</th>
             <th>Interest</th>
-            <th>Balence</th>
-        </tr>)"
-        + data +
-        R"(</table>
-    )";
+            <th>Balance</th>
+        </tr>)"+ data;
 }
 
 std::string ServerService::buildPage(UserInput* input) {
-    std::string table = buildTable(input);
     return R"(
         <!DOCTYPE html>
-        <html><body>
+        <html>
+        <style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+        input {
+            margin-top: 7px;
+            margin-bottom: 7px;
+            margin-left: 2px;
+            margin-right: 2px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            text-align: center;
+            margin: 25px;
+        }
+        </style>
+        <body><div>
         <p>Loan Amortization App</p>
         <form action="/add" method="POST">
             <label for="principal">Principal:</label><br>
@@ -69,10 +92,8 @@ std::string ServerService::buildPage(UserInput* input) {
             <label for="APR">APR:</label><br>
             <input type="number" id="APR" name="APR" min=0 max=100 step=0.01 required><br>
             <input type="submit" value="Submit">
-        </form>
-        <table>)" + 
-            table + 
-        R"(</table>
+        </form>)" + buildButton(input) + R"(</div>
+        <table>)" + buildTable(input) + R"(</table>
         <script>
             const navEntry = performance.getEntriesByType("navigation")[0];
             if (navEntry.type === "reload") {

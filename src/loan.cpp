@@ -58,7 +58,7 @@ std::vector<Payment*> Loan::generatePayments()
 	{
 		intrest = remainingPrincipal * RATE;
 		remainingPrincipal -= PAYMENT_VALUE-intrest;
-		payments.push_back(new Payment(PAYMENT_VALUE, intrest, remainingPrincipal, i));
+		payments.push_back(new Payment(PAYMENT_VALUE, intrest, remainingPrincipal, i+1));
 	}
 	return payments;
 }

@@ -19,5 +19,6 @@ namespace ServerService {
 
     void run();
     std::string buildPage(UserInput* input);
-    std::string buildTable(UserInput* input);   
+    std::string buildTable(UserInput* input);  
+    std::string buildButton(UserInput* input); 
 }
